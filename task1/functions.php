@@ -54,7 +54,7 @@ function editFileSize($fileSize) {
 }
 
 function delFile($file) {
-    return (unlink($file)) ? true : false;
+    return (is_executable($file) && unlink($file)) ? true : false;
 }
 
 function print_arr($arr) {

@@ -8,12 +8,12 @@ class Calc
 
     public function setVarA($var)
     {
-	$this->A = $var;
+	$this->A = (int)$var;
     }
     
     public function setVarB($var)
     {
-        $this->B = $var;
+        $this->B = (int)$var;
     }
 
     public function result()
