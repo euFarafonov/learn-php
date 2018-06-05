@@ -16,32 +16,6 @@ class Calc
         $this->B = (int)$var;
     }
 
-    public function result()
-    {
-	$this->result['A'] = $this->A;
-	$this->result['B'] = $this->B;
-	$this->result['memRead1'] = $this->MemRead();
-	$this->result['A+B'] = $this->sum();
-	$this->result['A-B'] = $this->ded();
-	$this->result['A*B'] = $this->mult();
-	$this->result['A/B'] = $this->div();
-	$this->result['sqrtA'] = $this->sqrtVar($this->A);
-	$this->result['sqrtB'] = $this->sqrtVar($this->B);
-	$this->result['divXA'] = $this->divX($this->A);
-	$this->result['divXB'] = $this->divX($this->B);
-	$this->result['perc'] = $this->perc($this->A, $this->B);
-	$this->result['memRead2'] = $this->MemRead();
-	$this->result['mem+A'] = $this->memAdd($this->A);
-	$this->result['memRead3'] = $this->MemRead();
-	$this->result['mem+B'] = $this->memAdd($this->B);
-	$this->result['memRead4'] = $this->MemRead();
-	$this->result['mem-A'] = $this->memDiv($this->A);
-	$this->result['memRead5'] = $this->MemRead();
-	$this->result['memClear'] = $this->memClear();
-	$this->result['memRead7'] = $this->memRead();
-	return $this->result;	
-    }
-
     private function sum()
     {
 	return ($this->A + $this->B);
