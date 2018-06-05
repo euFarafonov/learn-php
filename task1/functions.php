@@ -8,6 +8,24 @@ function uploadFile() {
     return (!$fileError && copyFile($fileTmpname, $fileName)) ? true : false;
 }
 
+function getFiles() {
+    if (is_dir(UPLOAD)) {
+    	$fileArr = scandir(UPLOAD);	
+    	$files = Array();
+    	$i = 0;
+    	
+        foreach ($fileArr as $file) {
+    	    if (is_file(UPLOAD.$file)) {
+        		$files[$i]['name'] = $file;
+        		$files[$i]['size'] = editFileSize((int)filesize(UPLOAD.$file));
+        		$i++;
+    	    }
+    	}
+    }
+    
+    return $files; 
+}
+
 function copyFile($fileTmpname, $file) {
     $fileArr = explode('.', $file);
     $fileName = $fileArr[0];
@@ -23,38 +41,20 @@ function copyFile($fileTmpname, $file) {
     return true;
 }
 
-function getFiles() {
-    if (is_dir(UPLOAD)) {
-	$fileArr = scandir(UPLOAD);	
-	$files = Array();
-	$i = 0;
-	foreach ($fileArr as $file) {
-	    
-	    if (is_file(UPLOAD.$file)) {
-		$files[$i]['name'] = $file;
-		$files[$i]['size'] = editFileSize((int)filesize(UPLOAD.$file));
-		$i++;
-	    }
-	}
-    }
-    
-    return $files; 
-}
-
 function editFileSize($fileSize) {
     if ($fileSize < 1024) {
-	$fileSize = $fileSize.'B';
+	   $fileSize = $fileSize.'B';
     } elseif ($fileSize > 1024 && $fileSize < 1048576) {
-	$fileSize = ((int)($fileSize / 1024 )).'Kb';
+	   $fileSize = ((int)($fileSize / 1024 )).'Kb';
     } else {
-	$fileSize = ((int)($fileSize / 1024 / 1024 )).'Mb';
+	   $fileSize = ((int)($fileSize / 1024 / 1024 )).'Mb';
     }
     
     return $fileSize;
 }
 
 function delFile($file) {
-    return (is_executable($file) && unlink($file)) ? true : false;
+    return (is_writable($file) && unlink($file)) ? true : false;
 }
 
 function print_arr($arr) {
@@ -62,5 +62,4 @@ function print_arr($arr) {
     print_r($arr);
     echo '</pre>';
 }
-
 ?>
