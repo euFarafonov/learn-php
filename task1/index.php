@@ -4,32 +4,17 @@ session_start();
 include 'config.php';
 include 'functions.php';
 
-if (isset($_POST['btn']) && $_FILES['file'])
+if ($_POST['btn'] && $_FILES['file']['name'])
 {
-    if (upload_file())
-    {
-	$_SESSION['msg'] = UPLOAD_SUCCESS;
-    }
-     else
-    {
-	$_SESSION['msg'] = UPLOAD_ERROR;
-    }
+    upload_file(UPLOAD);
 }
-
-$files = get_files(UPLOAD);
 
 if (isset($_GET['delete']))
 {
-    if(del_file(UPLOAD.$_GET['filename']))
-    {
-    	$_SESSION['msg'] = DELETE_SUCCESS;
-    	header('Location: '.PATH);
-    }
-    else
-    {
-	$_SESSION['msg'] = DELETE_ERROR;
-    }
+    delete_file(UPLOAD, $_GET['filename']);
 }
+
+$files = get_files(UPLOAD);
 
 require_once TEMPLATES.TEMPLATE;
 ?>
