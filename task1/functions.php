@@ -1,5 +1,5 @@
 <?php
-function get_files($dir)
+function getFiles($dir)
 {
     if (is_dir($dir))
     {
@@ -18,7 +18,7 @@ function get_files($dir)
                     if (is_readable($dir.$file))
                     {
                         $files[$i]['name'] = $file;
-                        $files[$i]['size'] = edit_size((int)filesize($dir.$file));
+                        $files[$i]['size'] = editSize((int)filesize($dir.$file));
                         $i++;
                     }
                     else
@@ -48,7 +48,7 @@ function get_files($dir)
     }
 }
 
-function edit_size($fileSize)
+function editSize($fileSize)
 {
     if ($fileSize < 1024)
     {
@@ -66,7 +66,7 @@ function edit_size($fileSize)
     return $fileSize;
 }
 
-function upload_file($dir)
+function uploadFile($dir)
 {
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
@@ -84,17 +84,17 @@ function upload_file($dir)
         {
             if (is_readable($dir) && is_writable($dir))
             {
-                if (copy_file($fileTmpname, $fileName, $dir))
+                if (copyFile($fileTmpname, $fileName, $dir))
                 {
                     $_SESSION['msg']['success'] = SUCCESS_UPLOAD;
-                    //echo 'OK<br>';
+                    
                     return true;
                 }
                 else
                 {
                     $_SESSION['msg']['error'] = ERROR_FILE_COPY;
-                    //echo 'ERROR<br>';
-                    return false;
+                    
+		    return false;
                 }
             }
             else
@@ -111,36 +111,34 @@ function upload_file($dir)
     }
 }
 
-function copy_file($fileTmpname, $fileName, $dir)
+function copyFile($fileTmpname, $fileName, $dir)
 {
-    //echo '1<br>';
     if (is_file($dir.$fileName))
     {
-        //echo '2-2<br>';
         $arr = explode('.', $fileName);
         $name = $arr[0];
         $ext = $arr[1];
         $fileName = $name.'-copy.'.$ext;
-        copy_file($fileTmpname, $fileName, $dir);
+        copyFile($fileTmpname, $fileName, $dir);
     }
     else
     {
-        //echo '2-1<br>';
         if (copy($fileTmpname, $dir.$fileName))
         {
-            //echo '3-1<br>';
             chmod($dir.$fileName, 0777);
-            //echo '4-1<br>';
+            
             return true;
         }
         else
         {
+
             return false;
         }
     }
+    return true;
 }
 
-function delete_file($dir, $filename)
+function deleteFile($dir, $filename)
 {
     if (is_readable($dir) && is_writable($dir))
     {
@@ -170,7 +168,7 @@ function delete_file($dir, $filename)
     }
 }
 
-function print_arr($arr)
+function printArr($arr)
 {
     echo '<pre>';
     print_r($arr);
