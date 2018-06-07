@@ -18,23 +18,25 @@ class Sql
         return USERID;
     }
     */
-    /*
-    public function insert($text)
+    
+    public function insert($sql)
     {
-    	$sql = "INSERT INTO ".$this->getTable()." (userid, userdata)
-    	VALUES (".$this->getUser." , :text)";
-    	$stmt = $this->pdo->prepare($sql);
-    	$stmt->execute(array('text' => $text));
+    	$stmt = $this->db->prepare($sql);
+	
+	
+    	$stmt->execute(array(':user' => 'user14'));
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
     }
-    */
+    
     public function select($sql)
     {
         $stmt = $this->db->prepare($sql);
         
-        //$stmt->bindParam('table', 'MY_TEST');
-        //$stmt->bindParam('user', 'user14');
-        $stmt->execute(array('table' => 'MY_TEST', 'user', 'user14'));
-        $result = $stmt->execute();
+        //$stmt->bindParam(':table', 'MY_TEST');
+        //$stmt->bindParam(':user', 'user9');
+        $stmt->execute(array(':user' => 'user14'));
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
         //$result = $stmt->FETCH(PDO::FETCH_ASSOC);
         
