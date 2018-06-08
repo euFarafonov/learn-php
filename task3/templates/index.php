@@ -32,16 +32,29 @@
     <?php unset($_SESSION['msg']); ?>
 <?php endif; ?>
 
-<h1>Work with file "<?=$file?>"</h1>
+<h1>Work with file "<?=FILE?>"</h1>
+<?php
+foreach ($text as $item)
+{
+	echo $item.'<br>';
+}
+?>
 
-<h2>Read file in line</h2>
-<?=$readLine;?>
-<h2>Read file in symbol</h2>
-<?=$readSymbol;?>
+<h2>Print line <?=$line1?> from file</h2>
+<?=$line?>
 
-<h2>Replace file in line</h2>
-<?=$replaceLine;?>
-<h2>Replace file in symbol</h2>
+<h2>Print symbol <?=$position?> from line <?=$line2?> from file</h2>
+<?=$symbol?>
+
+<h2>Replace <?=$line3?> line in base file</h2>
+<?php
+foreach ($newFile as $item)
+{
+	echo $item.'<br>';
+}
+?>
+
+
 
 </body>
 </html>
