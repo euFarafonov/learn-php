@@ -9,6 +9,12 @@ $reader = new WorkFile();
 $readLine = $reader->readLine($file);
 $readSymbol = $reader->readSymbol($file);
 
+$str = '========== String for replace ==========';
+$strNum = 11;
+$replaceLine = $reader->replaceLine($file, $strNum, $str);
+
+$symbol = '*';
+
 require_once TEMPLATES.TEMPLATE;
 
 /*

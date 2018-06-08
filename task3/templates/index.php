@@ -36,11 +36,12 @@
 
 <h2>Read file in line</h2>
 <?=$readLine;?>
-
 <h2>Read file in symbol</h2>
 <?=$readSymbol;?>
 
-
+<h2>Replace file in line</h2>
+<?=$replaceLine;?>
+<h2>Replace file in symbol</h2>
 
 </body>
 </html>

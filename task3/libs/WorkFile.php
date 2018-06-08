@@ -50,6 +50,30 @@ class WorkFile
         }
     }
     
+    public function replaceLine($file, $strNum, $str)
+    {
+        if ($data = $this->checkFile($file))
+        {
+            if ((int)$strNum <= count($data))
+            {
+                $data[$strNum-1] = $str.PHP_EOL;
+                file_put_contents($file, $data);
+                
+                return $this->readLine($file);
+            }
+            else
+            {
+                $_SESSION['msg']['error'] = ERROR_FILE_SMALL;
+                return false;
+            }
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_FILE;
+            return false;
+        }
+    }
+    
     protected function checkFile($file)
     {
         if (file_exists($file) && is_file($file))
