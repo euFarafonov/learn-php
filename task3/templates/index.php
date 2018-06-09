@@ -33,28 +33,48 @@
 <?php endif; ?>
 
 <h1>Work with file "<?=FILE?>"</h1>
+<h2>===== Print base file "<?=FILE?>" =====</h2>
 <?php
-foreach ($text as $item)
+if ($text)
 {
-	echo $item.'<br>';
+    foreach ($text as $item)
+    {
+    	echo $item.'<br>';
+    }
 }
 ?>
 
-<h2>Print line <?=$line1?> from file</h2>
+<h2>===== Print line "<?=$numLine1?>" from base file "<?=FILE?>" =====</h2>
 <?=$line?>
 
-<h2>Print symbol <?=$position?> from line <?=$line2?> from file</h2>
-<?=$symbol?>
+<h2>===== Print symbol "<?=$posSymbol1?>" in line "<?=$numLine2?>" from base file "<?=FILE?>" =====</h2>
+<?echo '"'.$symbol.'"'?>
 
-<h2>Replace <?=$line3?> line in base file</h2>
+<h2>===== Replace "<?=$numLine3?>" line in base file "<?=FILE?>" =====</h2>
+<h3>New line: "<?=$newStr?>"</h3>
+<h3>Print new file:</h3>
 <?php
-foreach ($newFile as $item)
+if ($fileNewLine)
 {
-	echo $item.'<br>';
+    foreach ($fileNewLine as $item)
+    {
+    	echo $item.'<br>';
+    }
 }
 ?>
 
-
+<h2>===== Replace "<?=$numSymbol?>" symbol in <?=$numLine4?> line from base file "<?=FILE?>" =====</h2>
+<h3>New symbol: "<?=$newSymbol?>"</h3>
+<h3>Print new file:</h3>
+<?php
+if ($fileNewSymbol)
+{
+    foreach ($fileNewSymbol as $item)
+    {
+    	echo $item.'<br>';
+    }
+}
+?>
 
 </body>
 </html>

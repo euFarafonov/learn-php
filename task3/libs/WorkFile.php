@@ -1,188 +1,150 @@
 <?php
 class WorkFile
 {
+    protected $data;
+    protected $line;
+    protected $symbol;
+    
     public function readLine($file, $line = false)
     {
-        if ($data = $this->checkFile($file))
+        if ($this->checkFile($file))
         {
-			if (false !== $line)
+			if (false !== $line && $this->checkLine($line))
 			{
-				$line = (int)$line;
-				if ($line > 0 && $line <= count($data))
-				{
-					return $data[$line - 1];
-				}
-				else
-				{
-					$_SESSION['msg']['error'] = ERROR_LINE;
-					return false;
-				}
+                return $this->data[$line - 1];
 			}
 			else
 			{
-				return $data;
+				return $this->data;
 			}
         }
         else
         {
-            $_SESSION['msg']['error'] = ERROR_FILE;
             return false;
         }
     }
     
-    public function readSymbol($file, $line, $position)
+    public function readSymbol($file, $line, $symbol)
     {
-        if ($data = $this->checkFile($file))
+        if ($this->checkFile($file) && $this->checkLine($line) && $this->checkSymbol($symbol))
         {
-            $line = (int)$line;
-			if ($line > 0 && $line <= count($data))
-			{
-				if($position > 0 && $position <= strlen($data[$line-1]))
-				{
-					return $data[$line-1][$position-1];
-				}
-				else
-				{
-					$_SESSION['msg']['error'] = ERROR_SYMBOL;
-					return false;
-				}
-			}
-			else
-			{
-				$_SESSION['msg']['error'] = ERROR_LINE;
-				return false;
-			}
+			return $this->data[$this->line-1][$this->symbol-1];
         }
         else
         {
-            $_SESSION['msg']['error'] = ERROR_FILE;
             return false;
         }
     }
     
-    public function replaceLine($file, $line, $str)
+    public function replaceLine($file, $line, $newStr)
     {
-        if ($data = $this->checkFile($file))
+        if ($this->checkFile($file) && $this->checkLine($line))
         {
-            $line = (int)$line;
-			if ($line > 0 && $line <= count($data))
-			{
-				$data[$line-1] = $str;
-				copy($file, NEWFILE);
-				//$newFile = $this->copyFile($file);
-				//file_put_contents($newFile, $data);
-				return true;
-				//return $this->readLine($file);
-			}
-			else
-			{
-				$_SESSION['msg']['error'] = ERROR_LINE;
-				return false;
-			}
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_FILE;
-            return false;
-        }
-    }
-	/*
-	public function replaceSymbol($file, $strNumSym, $symbolNum, $symbol)
-	{
-		if ($data = $this->checkFile($file))
-        {
-            if ((int)$strNumSym <= count($data))
+            $this->data[$this->line-1] = $newStr.PHP_EOL;
+            
+            if($this->saveFile(NEWFILE1))
             {
-                if ((int)$symbolNum <= strlen($data[$strNumSym-1]))
-				{
-					if (is_writable($file))
-					{
-						$data[$strNumSym-1][$symbolNum] = $symbol;
-						file_put_contents($file, $data);
-					
-						return $this->readLine($file);
-					}
-					else
-					{
-						$_SESSION['msg']['error'] = ERROR_WRITE_SYMBOL;
-						return false;
-					}
-				}
-				else
-				{
-					$_SESSION['msg']['error'] = ERROR_LINE_SMALL;
-					return false;
-				}
+                return $this->readLine(NEWFILE1);
             }
             else
             {
-                $_SESSION['msg']['error'] = ERROR_FILE_SMALL;
+                $_SESSION['msg']['error'] = ERROR_SAVE;
                 return false;
             }
         }
         else
         {
-            $_SESSION['msg']['error'] = ERROR_FILE;
+            return false;
+        }
+    }
+	
+	public function replaceSymbol($file, $line, $symbol, $newSymbol)
+	{
+		if ($this->checkFile($file) && $this->checkLine($line) && $this->checkSymbol($symbol))
+        {
+            $this->data[$this->line-1][$this->symbol-1] = $newSymbol;
+            
+            if($this->saveFile(NEWFILE2))
+            {
+                return $this->readLine(NEWFILE2);
+            }
+            else
+            {
+                $_SESSION['msg']['error'] = ERROR_SAVE;
+                return false;
+            }
+        }
+        else
+        {
             return false;
         }
 	}
-    */
-	/*
-	function copyFile($file)
-	{
-		if (is_file($file))
-		{	
-			$arr = explode('.', $file);
-			$name = $arr[0];
-			$ext = $arr[1];
-			$newfile = $name.'-copy.'.$ext;
-			
-			if (is_file($newfile))
-			{
-				$this->copyFile($newfile);
-				return true;
-			}
-			else
-			{
-				if (copy($file, $newFile))
-				{
-					chmod($newFile, 0777);
-					return $newFile;
-				}
-				else
-				{
-					$_SESSION['msg']['error'] = ERROR_COPY_FILE;
-					return false;
-				}
-			}
-			
-		}
-		else
-		{
-			$_SESSION['msg']['error'] = ERROR_FILE;
-			return false;
-		}
-		return true;
-	}
-	*/
+    
     protected function checkFile($file)
     {
-        if (file_exists($file) && is_file($file))
+        if (!is_dir(DIR))
         {
-            if (is_readable($file))
-            {
-                $data = file($file);
-                return $data;
-            }
-            else
-            {
-                $_SESSION['msg']['error'] = ERROR_READ;
-                return false;
-            }
+            $_SESSION['msg']['error'] = ERROR_DIR;
+        }
+        elseif (!is_readable(DIR))
+        {
+            $_SESSION['msg']['error'] = ERROR_READ_DIR;
+        }
+        elseif (!file_exists($file) && !is_file($file))
+        {
+            $_SESSION['msg']['error'] = ERROR_FILE;
+        }
+        elseif (!is_readable($file))
+        {
+            $_SESSION['msg']['error'] = ERROR_READ_FILE;
         }
         else
         {
-            $_SESSION['msg']['error'] = ERROR_FILE;
+            $this->data = file($file);
+            return true;
+        }
+        return false;
+    }
+    
+    protected function checkLine($line)
+    {
+        $line = (int)$line;
+        if ($line > 0 && $line <= count($this->data))
+        {
+            $this->line = $line;
+            return true;
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_LINE;
+            return false;
+        }
+    }
+    
+    protected function checkSymbol($symbol)
+    {
+        $symbol = (int)$symbol;
+        if ($symbol > 0 && $symbol <= strlen($this->data[$this->line-1]))
+        {
+            $this->symbol = $symbol;
+            return true;
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_SYMBOL;
+            return false;
+        }
+    }
+    
+    protected function saveFile($filename)
+    {
+        if (is_writable($filename) && file_put_contents($filename, $this->data))
+        {
+            return true;
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_WRITE_FILE;
             return false;
         }
     }

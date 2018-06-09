@@ -12,31 +12,31 @@ $text = $reader->readLine(FILE);
 /*
 * Print line from file
 */
-$line1 = 4;
-$line = $reader->readLine(FILE, $line1);
+$numLine1 = 4;
+$line = $reader->readLine(FILE, $numLine1);
 
 /*
 * Print symbol from file
 */
-$line2 = 2;
-$position = 23;
-$symbol = $reader->readSymbol(FILE, $line2, $position);
+$numLine2 = 3;
+$posSymbol1 = 5;
+$symbol = $reader->readSymbol(FILE, $numLine2, $posSymbol1);
 
 /*
-* Replace line from file
+* Replace line in file
 */
-$str = '========== String for replace ==========';
-$line3 = 4;
-$newFile = $reader->replaceLine(FILE, $line3, $str);
+$newStr = '========== String for replace ==========';
+$numLine3 = 4;
+$fileNewLine = $reader->replaceLine(FILE, $numLine3, $newStr);
 
-/* Replace symbol from file
-*/
 /*
-$symbol = '*';
-$symbolNum = 1;
-$strNumSym = 3;
-$replaceSymbol = $reader->replaceSymbol($file, $strNumSym, $symbolNum, $symbol);
+* Replace symbol in line from file
 */
+$newSymbol = '*';
+$numLine4 = 3;
+$numSymbol = 4;
+$fileNewSymbol = $reader->replaceSymbol(FILE, $numLine4, $numSymbol, $newSymbol);
+
 require_once TEMPLATES.TEMPLATE;
 
 /*
