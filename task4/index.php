@@ -1,18 +1,46 @@
 <?php
 include './config.php';
 include './libs/Sql.php';
+include './libs/Mysql.php';
+include './libs/Pgsql.php';
 
-$sql = new Sql();
+/*
+* Work with Mysql
+*/
+$mysql = new Mysql();
 
 // mysql INSERT
-$txt = "Data fot paste into table.";
-$query_mysql_insert = "INSERT INTO MY_TEST (userid, userdata) 
-VALUES (:user, $txt)";
-$result_mysql_insert = $sql->insert($query_mysql_insert);
+$dataInsertMy = 'Data for INSERT - MySQL';
+$resultInsertMy = $mysql->insert($dataInsertMy);
 
 // mysql SELECT
-//$query_mysql_select = "SELECT userdata FROM MY_TEST WHERE userid = :user";
-//$result_mysql_select = $sql->select($query_mysql_select);
+$resultSelectMy = $mysql->select();
+
+// mysql UPDATE
+$dataUpdateMy = 'Data for UPDATE - MySQL';
+$resultUpdateMy = $mysql->update($dataUpdateMy);
+
+// mysql DELETE
+$resultDeleteMy = $mysql->delete();
+
+/*
+* Work with Pgsql
+*/
+$pgsql = new Pgsql();
+
+// pgsql INSERT
+$dataInsertPg = 'Data for INSERT - PgSQL';
+$resultInsertPg = $pgsql->insert($dataInsertPg);
+
+// pgsql SELECT
+$resultSelectPg = $pgsql->select();
+
+// pgsql UPDATE
+$dataUpdatePg = 'Data for UPDATE - PgSQL';
+$resultUpdatePg = $pgsql->update($dataUpdatePg);
+
+// pgsql DELETE
+$resultDeletePg = $pgsql->delete();
 
 require_once TEMPLATES.TEMPLATE;
 ?>

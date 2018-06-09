@@ -1,62 +1,104 @@
 <?php
 class Sql
 {
-    private $db;
+    protected $pdo;
+    protected $param;
+    protected $table;
     
-    public function __construct() {
-    	$dsn = "mysql:host=".HOST.";dbname=".DB.";charset=utf8";
-    	$this->db = new PDO($dsn, USER, PASS);
-    }
-    /*
     public function getTable()
     {
-        return TABLE_MY;
-    }
-
-    public function getUser()
-    {
-        return USERID;
-    }
-    */
-    
-    public function insert($sql)
-    {
-    	$stmt = $this->db->prepare($sql);
-	
-	
-    	$stmt->execute(array(':user' => 'user14'));
-	$result = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $result;
+        return $this->table;
     }
     
-    public function select($sql)
+    public function setParam($param)
     {
-        $stmt = $this->db->prepare($sql);
+        $this->param = $param;
+    }
+    
+    public function getParam()
+    {
+        return $this->param;
+    }
+    
+    public function execute($query)
+    {
+    	$stmt = $this->pdo->prepare($query);
+    	$result = $stmt->execute($this->getParam());
         
-        //$stmt->bindParam(':table', 'MY_TEST');
-        //$stmt->bindParam(':user', 'user9');
-        $stmt->execute(array(':user' => 'user14'));
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        //$result = $stmt->FETCH(PDO::FETCH_ASSOC);
-        
-    	/*
-        while ($row = $stmt->fetch())
+        if ($result)
         {
-            $res[] = $row;
-        }*/
-        return $result;
+            return $result;
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_EXECUTE;
+            return false;
+        }
+    }
+    
+    public function query($query)
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($this->getParam());
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if ($result)
+        {
+            return $result;
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_QUERY;
+            return false;
+        }
+    }
+    
+    public function insert($data = false)
+    {      
+        if ($data)
+        {
+            $param = array('user' => USER_ID, 'data' => $data);
+            $this->setParam($param);
+            $query = "INSERT INTO ".$this->getTable()." (userid, userdata) VALUES (:user, :data)";
+            return $this->execute($query);
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_DATA;
+            return false;
+        }
+    }
+    
+    public function select()
+    {
+        $param = array('user' => USER_ID);
+        $this->setParam($param);
+        $query = "SELECT userdata FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
+        return $this->query($query);
+    }
+    
+    public function update($data = false)
+    {
+        if ($data)
+        {
+            $param = array('user' => USER_ID, 'data' => $data);
+            $this->setParam($param);
+            $query = "UPDATE ".$this->getTable()." SET userdata = :data WHERE userid = :user LIMIT 1";
+            return $this->execute($query);
+        }
+        else
+        {
+            $_SESSION['msg']['error'] = ERROR_DATA;
+            return false;
+        }
+    }
+    
+    public function delete()
+    {
+        $param = array('user' => USER_ID);
+        $this->setParam($param);
+        $query = "DELETE FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
+        return $this->execute($query);
     }
 }
-
-
-
-
-
-
-
-/*
-$db = new PDO("pgsql:host=$host;dbname=$db", $user, $password);
-
-*/
 ?>
