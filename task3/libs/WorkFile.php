@@ -5,13 +5,20 @@ class WorkFile
     protected $line;
     protected $symbol;
     
-    public function readLine($file, $line = false)
+    public function readFile($file, $line = false, $symbol = false)
     {
         if ($this->checkFile($file))
         {
 			if (false !== $line && $this->checkLine($line))
 			{
-                return $this->data[$line - 1];
+                if (false !== $symbol && $this->checkSymbol($symbol))
+                {
+                    return $this->data[$this->line-1][$this->symbol-1];
+                }
+                else
+                {
+                    return $this->data[$line - 1];
+                }
 			}
 			else
 			{
@@ -24,27 +31,24 @@ class WorkFile
         }
     }
     
-    public function readSymbol($file, $line, $symbol)
-    {
-        if ($this->checkFile($file) && $this->checkLine($line) && $this->checkSymbol($symbol))
-        {
-			return $this->data[$this->line-1][$this->symbol-1];
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    public function replaceLine($file, $line, $newStr)
+    public function replaceFile($file, $line, $newElement, $symbol = false)
     {
         if ($this->checkFile($file) && $this->checkLine($line))
         {
-            $this->data[$this->line-1] = $newStr.PHP_EOL;
-            
-            if($this->saveFile(NEWFILE1))
+            if (false !== $symbol && $this->checkSymbol($symbol))
             {
-                return $this->readLine(NEWFILE1);
+                $this->data[$this->line-1][$this->symbol-1] = $newElement;
+                $newfile = NEWFILE2;
+            }
+            else
+            {
+                $this->data[$this->line-1] = $newElement.PHP_EOL;
+                $newfile = NEWFILE1;
+            }
+            
+            if($this->saveFile($newfile))
+            {
+                return $this->readFile($newfile);
             }
             else
             {
@@ -57,28 +61,6 @@ class WorkFile
             return false;
         }
     }
-	
-	public function replaceSymbol($file, $line, $symbol, $newSymbol)
-	{
-		if ($this->checkFile($file) && $this->checkLine($line) && $this->checkSymbol($symbol))
-        {
-            $this->data[$this->line-1][$this->symbol-1] = $newSymbol;
-            
-            if($this->saveFile(NEWFILE2))
-            {
-                return $this->readLine(NEWFILE2);
-            }
-            else
-            {
-                $_SESSION['msg']['error'] = ERROR_SAVE;
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-	}
     
     protected function checkFile($file)
     {
@@ -138,7 +120,7 @@ class WorkFile
     
     protected function saveFile($filename)
     {
-        if (is_writable($filename) && file_put_contents($filename, $this->data))
+        if (file_put_contents($filename, $this->data) && is_writable($filename))
         {
             return true;
         }
