@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include './config.php';
 include './libs/Sql.php';
 include './libs/Mysql.php';
