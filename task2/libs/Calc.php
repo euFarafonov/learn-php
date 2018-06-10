@@ -57,7 +57,7 @@ class Calc
 
     public function percent()
     {
-	   return ($this->a * $this->b / 100);
+	   return (0 === $this->b) ? DIV_ERROR : ($this->a / $this->b * 100);
     }
 
     public function memRead()
