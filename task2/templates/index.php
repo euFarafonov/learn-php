@@ -17,8 +17,7 @@
 <div>sqrt(B) = <?=$sqrtB?></div>
 <div>1/A = <?=$divXA?></div>
 <div>1/B = <?=$divXB?></div>
-<div>percentAB = <?=$percentAB?></div>
-<div>percentBA = <?=$percentBA?></div>
+<div>percent = <?=$percent?></div>
 
 <div>Memory = <?=$memRead1?></div>
 <div>Memory + A = <?=$memAddA?></div>
@@ -38,8 +37,7 @@
 <div>sqrt(B) = <?=$sqrtB2?></div>
 <div>1/A = <?=$divXA2?></div>
 <div>1/B = <?=$divXB2?></div>
-<div>percentAB = <?=$percentAB2?></div>
-<div>percentBA = <?=$percentBA2?></div>
+<div>percent = <?=$percent2?></div>
 
 <div>Memory = <?=$memRead12?></div>
 <div>Memory + A = <?=$memAddA2?></div>

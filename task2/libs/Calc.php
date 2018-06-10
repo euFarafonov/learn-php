@@ -5,14 +5,14 @@ class Calc
     private $b;
     private $mem = 0;
 
-    public function setVarA($var)
+    public function setVarA($a)
     {
-	   $this->a = (int)$var;
+	   $this->a = (int)$a;
     }
     
-    public function setVarB($var)
+    public function setVarB($b)
     {
-        $this->b = (int)$var;
+        $this->b = (int)$b;
     }
     
     public function getVarA()
@@ -55,9 +55,9 @@ class Calc
 	   return (0 === $var) ? DIV_ERROR : (1 / $var);
     }
 
-    public function percent($x, $y)
+    public function percent()
     {
-	   return ($x / 100 * $y);
+	   return ($this->a * $this->b / 100);
     }
 
     public function memRead()

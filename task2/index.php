@@ -21,8 +21,7 @@ $sqrtA = $calc->sqrtVar($calc->getVarA());
 $sqrtB = $calc->sqrtVar($calc->getVarB());
 $divXA = $calc->divX($calc->getVarA());
 $divXB = $calc->divX($calc->getVarB());
-$percentAB = $calc->percent($calc->getVarA(), $calc->getVarB());
-$percentBA = $calc->percent($calc->getVarB(), $calc->getVarA());
+$percent = $calc->percent();
 
 $memRead1 = $calc->memRead();
 $memAddA = $calc->memAdd($calc->getVarA());
@@ -49,8 +48,7 @@ $sqrtA2 = $calc->sqrtVar($calc->getVarA());
 $sqrtB2 = $calc->sqrtVar($calc->getVarB());
 $divXA2 = $calc->divX($calc->getVarA());
 $divXB2 = $calc->divX($calc->getVarB());
-$percentAB2 = $calc->percent($calc->getVarA(), $calc->getVarB());
-$percentBA2 = $calc->percent($calc->getVarB(), $calc->getVarA());
+$percent2 = $calc->percent();
 
 $memRead12 = $calc->memRead();
 $memAddA2 = $calc->memAdd($calc->getVarA());
