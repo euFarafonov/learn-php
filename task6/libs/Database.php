@@ -16,113 +16,35 @@ class Database
         }
     }
     
-    public function getParam()
+    public function findAll($table)
     {
-        return $this->param;
-    }
-    
-    public function execute($query)
-    {
-    	$stmt = $this->pdo->prepare($query);
-    	$result = $stmt->execute($this->getParam());
+        switch ($table)
+        {
+            case 'band':
+            $query = "SELECT band.band_id, band.band_name, genre.genre_name FROM band 
+            LEFT JOIN band_genre ON band.band_id = band_genre.band_id 
+            LEFT JOIN genre ON band_genre.genre_id = genre.genre_id";
+            break;
+            
+            case 'musician':
+            $query = "SELECT musician.musician_id, musician.musician_name, instrument.instrument_name, musician_band.band_id, musictype_name FROM musician 
+            LEFT JOIN musician_instrument ON musician.musician_id = musician_instrument.musician_id 
+            LEFT JOIN instrument ON instrument.instrument_id = musician_instrument.instrument_id
+            LEFT JOIN musician_band ON musician_band.musician_id = musician.musician_id
+            LEFT JOIN musician_musictype ON musician.musician_id = musician_musictype.musician_id
+            LEFT JOIN musictype ON musician_musictype.musictype_id = musictype.musictype_id";
+            break;
+            
+            case 'instrument':
+            $query = "SELECT instrument.instrument_id, instrument.instrument_name, category.category_name, musician_instrument.musician_id FROM instrument 
+            LEFT JOIN instrument_category ON instrument.instrument_id = instrument_category.instrument_id 
+            LEFT JOIN category ON category.category_id = instrument_category.category_id
+            LEFT JOIN musician_instrument ON musician_instrument.instrument_id = instrument.instrument_id";
+            break;
+        }
         
-        if ($result)
-        {
-            return $result;
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_EXECUTE;
-            return false;
-        }
-    }
-    
-    public function query($query)
-    {
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute($this->getParam());
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ($result)
-        {
-            return $result;
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_QUERY;
-            return false;
-        }
-    }
-    
-    public function findAll($query)
-    {
         $stmt = $this->pdo->query($query);
-        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-        
-        return $result;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public function insert($data = false)
-    {      
-        if ($data)
-        {
-            $param = array('user' => USER_ID, 'data' => $data);
-            $this->setParam($param);
-            $query = "INSERT INTO ".$this->getTable()." (userid, userdata) VALUES (:user, :data)";
-            return $this->execute($query);
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_DATA;
-            return false;
-        }
-    }
-    
-    public function select()
-    {
-        $param = array('user' => USER_ID);
-        $this->setParam($param);
-        $query = "SELECT userdata FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
-        return $this->query($query);
-    }
-    
-    public function update($data = false)
-    {
-        if ($data)
-        {
-            $param = array('user' => USER_ID, 'data' => $data);
-            $this->setParam($param);
-            $query = "UPDATE ".$this->getTable()." SET userdata = :data WHERE userid = :user LIMIT 1";
-            return $this->execute($query);
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_DATA;
-            return false;
-        }
-    }
-    
-    public function delete()
-    {
-        $param = array('user' => USER_ID);
-        $this->setParam($param);
-        $query = "DELETE FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
-        return $this->execute($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
