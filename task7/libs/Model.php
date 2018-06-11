@@ -24,6 +24,14 @@ class Model
 	
 	public function checkForm()
 	{
+		$errors = array();
+		
+		if (3 >= strlen($_POST['name']))
+		{
+			errors[] = 'Invalid field name';
+		}
+		
+		
 		return true;
 	}
 	
