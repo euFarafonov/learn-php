@@ -9,7 +9,7 @@ define('TEMPLATES', PATH.'templates/');
 define('TEMPLATE', 'index.php');
 
 // FOR DB
-define('DB', 'music');
+define('DB', 'user14');
 define('HOST', 'localhost');
 define('USER', 'user14');
 define('PASS', 'user14');

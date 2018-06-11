@@ -120,15 +120,22 @@ class WorkFile
     
     protected function saveFile($filename)
     {
-        if (file_put_contents($filename, $this->data) && is_writable($filename))
-        {
-            return true;
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_WRITE_FILE;
-            return false;
-        }
+        if (file_exists($filename))
+		{
+			if (is_writable($filename)&& file_put_contents($filename, $this->data))
+			{
+				return true;
+			}
+			else
+			{
+				$_SESSION['msg']['error'] = ERROR_WRITE_FILE;
+				return false;
+			}
+		}
+		else
+		{
+			fopen($filename, 'w');
+		}
     }
 }
 ?>
