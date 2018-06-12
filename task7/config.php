@@ -1,12 +1,15 @@
 <?php
 // PATH
 define('PATH', './');
-// TITLE
-define('TITLE', 'Music');
+// SITENAME
+define('SITENAME', 'MY SHOP');
 // templates dir
 define('TEMPLATES', PATH.'templates/');
 // active template
 define('TEMPLATE', 'index.php');
+
+// Admin email
+define('ADMIN', 'eu.farafonov@gmail.com');
 
 // FOR DB
 define('DB', 'user14');
