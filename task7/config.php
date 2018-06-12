@@ -10,6 +10,7 @@ define('TEMPLATE', 'index.php');
 
 // Admin email
 define('ADMIN', 'vpavlov@geeksforless.net');
+//define('ADMIN', 'eu.farafonov@gmail.com');
 
 // FOR DB
 define('DB', 'user14');

@@ -67,7 +67,8 @@ class Model
         - email: " . $this->mArray['%EMAIL%'] . PHP_EOL . "
         - subject: " . $_POST['subject'] . PHP_EOL ."
         - message: " . $this->mArray['%MSG%'] . PHP_EOL . "
-		- ip-address: " . $_SERVER['REMOTE_ADDR'];
+		- ip-address: " . $_SERVER['REMOTE_ADDR']. PHP_EOL . "
+		- date: " . $_COOKIE['date'];
         
         $headers = "MIME-Version: 1.0 \r\n"; 
         $headers .= "Content-type: text/plain; charset=utf-8 \r\n";

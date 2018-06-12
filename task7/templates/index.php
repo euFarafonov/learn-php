@@ -40,7 +40,7 @@
 
 <body>
 <h2>Contact Form</h2>
-<form method="post" action="">
+<form id="form" method="post" action="">
 	<input type="text" name="name" placeholder="Enter your name" value="%NAME%">
 	<input type="text" name="email" placeholder="Enter your email" value="%EMAIL%">
 	<select name="subject">
@@ -51,8 +51,17 @@
 		<option value="sos" %SOS%>SOS</option>
 	</select>
 	<textarea name="msg" placeholder="Enter your message">%MSG%</textarea>
-	<input type="submit" value="Send message">
+	<input class="js_btn" type="submit" value="Send message">
 </form>
 <div class="errors">%ERRORS%</div>
+
+<script>
+window.onload = function() {
+    var form = new Form({
+        formId: 'form'
+    });
+};
+</script>
+<script type="text/javascript" src="templates/js.js"></script>
 </body>
 </html>
