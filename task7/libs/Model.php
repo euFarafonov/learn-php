@@ -18,6 +18,11 @@ class Model
 			'%SOS%'=>'',
 			'%MSG%'=>''
 		);
+        
+        if (empty($this->mArray))
+        {
+            throw new ModelException('Can not get templates for html.');
+        }
 	}
 	
 	public function getArray()

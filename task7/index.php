@@ -1,14 +1,13 @@
 <?php
 include ('config.php');
-include ('libs/Controller.php');
-include ('libs/View.php');
-include ('libs/Model.php');
+include ('autoloader.php');
 
 try
 {
 	$obj = new Controller();
 }
-catch(Exception $e)
+catch(baseException $e)
 {
 	echo $e->getMessage();
 }
+?>

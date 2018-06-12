@@ -7,6 +7,11 @@ class View
 	public function __construct($template)
 	{
 		$this->file = file_get_contents($template);
+        
+        if (empty($this->file))
+        {
+            throw new ViewException('Can not get content from template.');
+        }
 	}
 
 	public function addToReplace($mArray)
