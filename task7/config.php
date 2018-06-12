@@ -9,7 +9,7 @@ define('TEMPLATES', PATH.'templates/');
 define('TEMPLATE', 'index.php');
 
 // Admin email
-define('ADMIN', 'eu.farafonov@gmail.com');
+define('ADMIN', 'vpavlov@geeksforless.net');
 
 // FOR DB
 define('DB', 'user14');
