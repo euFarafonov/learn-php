@@ -1,93 +1,75 @@
 <?php
 class HtmlHelper
 {
-	public static function getSelect($array)
+	static public function createElement($items, $opt)
 	{
-		$select = '<select name="select" multiple>';
-		foreach ($array as $item)
+		$parentAttr = self::createAttr($opt['parentAttr']);
+        $tagAttr = self::createAttr($opt['tagAttr']);
+        $childAttr = self::createAttr($opt['childAttr']);
+        $i = 1;
+        
+        $element = '<'.$opt['parent'].' '.$parentAttr.'>';
+        
+        if ('table' === $opt['parent'])
+        {
+            $element .= '<'.$opt['tag'].'><'.$opt['child'].'>#</'.$opt['child'].'>';
+            
+            foreach ($items[0] as $key => $val)
+            {
+                $element .= '<'.$opt['child'].'>'.$key.'</'.$opt['child'].'>';
+            }
+            
+            $element .= '</'.$opt['tag'].'>';
+        }
+        
+        foreach ($items as $val)
 		{
-			$select .= "<option value='".strtolower($item)."'>$item</option>";
+            if ('select' === $opt['parent'])
+            {
+                $element .= '<'.$opt['tag'].$tagAttr.' value="'.strtolower($val['name']).'">';
+                $element .= $val['name'];
+                $element .= '</'.$opt['tag'].'>';
+            }
+            elseif ('table' === $opt['parent'])
+            {
+                $element .= '<'.$opt['tag'].$tagAttr.'>';
+                $element .= '<'.$opt['child'].$childAttr.'>'.$i++.'</'.$opt['child'].'>';
+                $element .= '<'.$opt['child'].$childAttr.'>'.$val['name'].'</'.$opt['child'].'>';
+                $element .= '<'.$opt['child'].$childAttr.'>'.$val['description'].'</'.$opt['child'].'>';
+                $element .= '</'.$opt['tag'].'>';
+            }
+            elseif ('dl' === $opt['parent'])
+            {
+                $element .= '<'.$opt['tag'].$tagAttr.'>'.$val['name'].'</'.$opt['tag'].'>';
+                $element .= '<'.$opt['child'].$childAttr.'>'.$val['description'].'</'.$opt['child'].'>';
+            }
+            elseif ('input' === $opt['child'])
+            {
+                $element .= '<'.$opt['tag'].$tagAttr.'>';
+                $element .= '<'.$opt['child'].$childAttr.' value="'.strtolower($val['name']).'">';
+                $element .= $val['name'];
+                $element .= '</'.$opt['tag'].'>';
+            }
+            else
+            {
+                $element .= '<'.$opt['tag'].$tagAttr.'>'.$val['name'].'</'.$opt['tag'].'>';
+            }
 		}
-		$select .= '</select>';
+		$element .= '</'.$opt['parent'].'>';
 		
-		return $select;
+		return $element;
 	}
-	
-	public static function getTable($array)
-	{
-		$table = "<table><tr><td>#</td><td>Fruit</td></tr>";
-		$i = 1;
-		foreach ($array as $item)
-		{
-			$table .= "<tr><td>".$i++."</td><td>$item</td></tr>";
-		}
-		$table .= '</table>';
-		
-		return $table;
-	}
-	
-	public static function getOrderlist($array)
-	{
-		$orderlist = '<ol>';
-		foreach ($array as $item)
-		{
-			$orderlist .= "<li>$item</li>";
-		}
-		$orderlist .= '</ol>';
-		
-		return $orderlist;
-	}
-	
-	public static function getUnorderlist($array)
-	{
-		$unorderlist = '<ul>';
-		foreach ($array as $item)
-		{
-			$unorderlist .= "<li>$item</li>";
-		}
-		$unorderlist .= '</ul>';
-		
-		return $unorderlist;
-	}
-	
-	public static function getDefinlist($array)
-	{
-		$definlist = '<dl>';
-		foreach ($array as $item)
-		{
-			$definlist .= "<dt>$item</dt><dd>Description</dd>";
-		}
-		$definlist .= '</dl>';
-		
-		return $definlist;
-	}
-	
-	public static function getRadio($array)
-	{
-		$radiobtn = '<div>';
-		$i = 1;
-		foreach($array as $item)
-		{
-			$radiobtn .= "<label>radio".$i++."
-			<input type='radio' name='radiobtn'></label>";
-		}
-		$radiobtn .= '</div>';
-		
-		return $radiobtn;
-	}
-	
-	public static function getCheck($array)
-	{
-		$check = '<div>';
-		$i = 1;
-		foreach($array as $item)
-		{
-			$check .= "<label>check".$i++."
-			<input type='checkbox' name='check[]'></label>";
-		}
-		$check .= '</div>';
-		
-		return $check;
-	}
+    
+    private function createAttr($arr)
+    {
+        $attr = '';
+        
+        foreach ($arr as $key => $val)
+        {
+            $attr .= ' '.$key.'='.$val;
+        }
+        
+        return $attr;
+    }
 }
 ?>
