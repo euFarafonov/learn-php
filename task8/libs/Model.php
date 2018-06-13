@@ -1,39 +1,77 @@
 <?php
 class Model
 {
-	protected $mArray = array();
-    protected $errors = array();
-    protected $search;
+	protected $templates = array();
     
     public function __construct()
 	{
-		$this->search = new Search();
+		$this->templates = array('%TITLE%'=>'CURL', '%SEARCH%'=>'');
         
-        $this->mArray = array(
-			'%TITLE%'=>'CURL',
-			'%SEARCH%'=>''
-		);
-        /*
-        if (empty($this->mArray))
+        if (empty($this->templates))
         {
             throw new ModelException('Can not get templates for html.');
-        }*/
+        }
 	}
-	/*
-	public function getArray()
+	
+	public function getTemplates()
 	{
-		return $this->mArray;
+		return $this->templates;
 	}
-	*/
+	
 	public function searchData($query)
 	{
-        $this->mArray['%SEARCH%'] = $this->search->query($query);
+		$curl = $this->useCurl($query);
+		$html = str_get_html($curl);
+		
+		if (!$html)
+		{
+			throw new GetHtmlException('Can not get html from cURL.');
+		}
+		
+		$elements = $html->find('#center_col #search .bkWMgd .srg .g .rc .s .st');
+		
+		$result = '';
+		
+		foreach ($elements as $item)
+		{
+			$title = $item->parent()->parent()->parent()->first_child()->first_child();
+			$href = $title->href;
+			$titleText = $title->plaintext;
+			$link = $item->prev_sibling()->first_child()->plaintext;
+			$text = $item->plaintext;
+			
+			$result .= '<div class="result">';
+			$result .= '<a class="result_title" href="'.$href.'">'.$titleText.'</a>';
+			$result .= '<div class="result_link">'.$link.'</div>';
+			$result .= '<div class="result_text">'.$text.'</div>';
+			$result .= '</div>';
+		}
+		
+		$this->templates['%SEARCH%'] = $result;
+		return true;
 	}
 	
-	
-    
-    
-        return true;
+	public function useCurl($query)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        //curl_setopt($ch, CURLOPT_HEADER, true);
+        //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, USERAGENT);
+        curl_setopt($ch, CURLOPT_URL, ENGINE.$query);
+		
+		$output = curl_exec($ch); 
+		$info = curl_getinfo($ch);
+		curl_close($ch);  
+		
+		if (200 !== $info['http_code'] && CONTENT_TYPE !== $info['content_type'])
+		{
+			throw new SearchException(HTTP_STATUS_ERROR.' '.$info['http_code'].' '.$info['http_code']);
+		}
+		
+		return $output;
     }
 }
 ?>

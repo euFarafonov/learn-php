@@ -9,37 +9,16 @@ class Controller
 		$this->model = new Model();
 		$this->view = new View(TEMPLATES.TEMPLATE);
 		
-		if(isset($_POST['email']))
+		if(isset($_POST['search']))
 		{
-			$res = $this->model->searchData('воробей');
-            //$this->view->templateRender($res);
-            
-		}
-		/*
-        else
-		{
-			//$this->pageDefault();
-		}
-		*/
-		$this->view->templateRender();
-	}
-	/*
-	private function searchData()
-	{
-		
-        
-        if($this->model->checkForm() === true)
-		{
-			$this->model->sendEmail();
+			if (!$this->model->searchData($_POST['search']))
+			{
+				throw new SearchDataException('Can not get SearchData.');
+			}
 		}
 		
-		//$mArray = $this->model->getArray();
-		//$this->view->addToReplace($mArray);
-	}*/
-	private function pageDefault()
-	{
-		//$mArray = $this->model->getArray();
-		$this->view->addToReplace($mArray);
+		$templates = $this->model->getTemplates();
+		$this->view->templateRender($templates);
 	}
 }
 ?>

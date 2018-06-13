@@ -13,14 +13,7 @@
         <input type="text" name="search" placeholder="Insert your query">
     </form>
     
-    <div class="result_wrap">
-        <div class="result">
-            <a class="result_title" href="#">dfshyjfhj j gj gf</a>
-            <div class="result_link">jghg fj ghj khg kkj </div>
-            <div class="result_text">hgjghjhgjgf jghj gj gh hjg</div>
-        </div>
-        %SEARCH%
-    </div>
+    <div class="result_wrap">%SEARCH%</div>
 </div>
 </body>
 </html>

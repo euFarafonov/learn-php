@@ -5,7 +5,7 @@ body {
 .container {
     max-width: 1170px;
     margin: 0 auto;
-    padding-top: 50px;
+    padding: 50px 0;
 }
 
     .logo {
@@ -44,7 +44,7 @@ body {
     }
     
         .result {
-            
+            margin-bottom: 20px;
         }
         
             .result_title {
@@ -71,10 +71,3 @@ body {
                 color: #4e4e4e;
                 font-weight: 400;
             }
-/*
-.clearfix:after {
-    content: "";
-    display: block;
-    clear: both;
-}*/
-

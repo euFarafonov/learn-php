@@ -1,6 +1,7 @@
 <?php
-include ('config.php');
-include ('autoloader.php');
+include 'config.php';
+include 'autoloader.php';
+include 'libs/simple_html_dom.php';
 
 try
 {

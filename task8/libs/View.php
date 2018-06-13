@@ -1,7 +1,6 @@
 <?php
 class View
 {
-	private $forRender;
 	private $file;
 
 	public function __construct($template)
@@ -13,24 +12,14 @@ class View
             throw new ViewException('Can not get content from template.');
         }
 	}
-/*
-	public function addToReplace($mArray)
+
+	public function templateRender($templates)
 	{
-		foreach($mArray as $key=>$val)
-		{
-			$this->forRender[$key] = $val;
-		}
-	}
-*/
-	public function templateRender()
-	{
-		
-        foreach($this->forRender as $key=>$val)
+        foreach($templates as $key=>$val)
 		{
 			$this->file = str_replace($key, $val, $this->file);
 		}
         
-        //$this->file = str_replace($key, $val, $this->file);
 		echo $this->file;
 	}
 }
