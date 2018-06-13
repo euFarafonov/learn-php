@@ -60,7 +60,7 @@ class HtmlHelper
 		return $element;
 	}
     
-    private function createAttr($arr)
+    static private function createAttr($arr)
     {
         $attr = '';
         
