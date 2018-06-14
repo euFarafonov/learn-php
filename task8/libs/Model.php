@@ -60,7 +60,7 @@ class Model
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_USERAGENT, USERAGENT);
-        curl_setopt($ch, CURLOPT_URL, ENGINE.$query);
+        curl_setopt($ch, CURLOPT_URL, ENGINE.urlencode($query));
 		
 		$output = curl_exec($ch); 
 		$info = curl_getinfo($ch);
