@@ -1,48 +1,54 @@
 <?php
 session_start();
 
-include './config.php';
-include './libs/Sql.php';
-include './libs/Mysql.php';
-include './libs/Pgsql.php';
+include ('config.php');
+include ('autoloader.php');
 
 /*
 * Work with Mysql
 */
 $mysql = new Mysql();
+$dataInsertMy = 'Data1 for INSERT - MySQL';
+$dataUpdateMy = 'Data for UPDATE - MySQL';
 
-// mysql INSERT
-$dataInsertMy = 'Data for INSERT - MySQL';
-$resultInsertMy = $mysql->insert($dataInsertMy);
+try
+{
+    // mysql INSERT
+    $resultInsertMy = $mysql->insert($dataInsertMy);
+    // mysql SELECT
+    $resultSelectMy = $mysql->select();
+}
+catch(baseException $e)
+{
+	echo $e->getMessage();
+}
 
-// mysql SELECT
-$resultSelectMy = $mysql->select();
 
 // mysql UPDATE
-$dataUpdateMy = 'Data for UPDATE - MySQL';
-$resultUpdateMy = $mysql->update($dataUpdateMy);
+
+//$resultUpdateMy = $mysql->update($dataUpdateMy);
 
 // mysql DELETE
-$resultDeleteMy = $mysql->delete();
+//$resultDeleteMy = $mysql->delete();
 
 /*
 * Work with Pgsql
 */
-$pgsql = new Pgsql();
+//$pgsql = new Pgsql();
 
 // pgsql INSERT
-$dataInsertPg = 'Data for INSERT - PgSQL';
-$resultInsertPg = $pgsql->insert($dataInsertPg);
+//$dataInsertPg = 'Data for INSERT - PgSQL';
+//$resultInsertPg = $pgsql->insert($dataInsertPg);
 
 // pgsql SELECT
-$resultSelectPg = $pgsql->select();
+//$resultSelectPg = $pgsql->select();
 
 // pgsql UPDATE
-$dataUpdatePg = 'Data for UPDATE - PgSQL';
-$resultUpdatePg = $pgsql->update($dataUpdatePg);
+//$dataUpdatePg = 'Data for UPDATE - PgSQL';
+//$resultUpdatePg = $pgsql->update($dataUpdatePg);
 
 // pgsql DELETE
-$resultDeletePg = $pgsql->delete();
+//$resultDeletePg = $pgsql->delete();
 
 require_once TEMPLATES.TEMPLATE;
 ?>

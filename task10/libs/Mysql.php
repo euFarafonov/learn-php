@@ -6,6 +6,7 @@ class Mysql extends Sql
     	try
         {
             $this->pdo = new PDO(DSN_MYSQL, USER, PASS);
+            $this->fpdo = new FluentSql($this->pdo);
         }
         catch (PDOException $e)
         {

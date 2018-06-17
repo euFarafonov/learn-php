@@ -35,12 +35,13 @@
 
 <h2>Work with database MySQL</h2>
 <h3>INSERT in database</h3>
-<p>Insert in database text: "<?=$dataInsertMy?>"</p>
-<p>Affected <?=$resultInsertMy?> line in database</p>
+<p>Query: <?=$resultInsertMy['stmt']->queryString; ?></p>
+<p>Affected <?=$resultInsertMy['result']?> line in database</p>
 
 <h3>SELECT from database</h3>
+<p>Query: <?=$resultSelectMy['stmt']->queryString; ?></p>
 <p>Result: <?=$resultSelectMy[0]['userdata']?></p>
-
+<!--
 <h3>UPDATE data in database</h3>
 <p>Update in database to the following text: "<?=$dataUpdateMy?>"</p>
 <p>Affected <?=$resultUpdateMy?> line in database</p>
@@ -63,6 +64,6 @@
 
 <h3>DELETE data from database</h3>
 <p>Affected <?=$resultDeletePg?> line in database</p>
-
+-->
 </body>
 </html>

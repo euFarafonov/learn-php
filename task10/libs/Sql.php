@@ -2,24 +2,36 @@
 class Sql
 {
     protected $pdo;
+    protected $fpdo;
     protected $param;
     protected $table;
     
-    public function getTable()
-    {
-        return $this->table;
+    public function insert($data)
+    {      
+        $stmt = $this->fpdo->insertInto($this->table, array('userid' => USER_ID, 'userdata' => $data));
+        $result = $stmt->execute();
+        if(!$result)
+        {
+            throw new InsertException('Can not insert data in DB.');
+        }
+        return array('result' => $result, 'stmt' => $stmt);
     }
     
-    public function setParam($param)
+    public function selectFrom()
     {
-        $this->param = $param;
+        $stmt = $this->fpdo->select(
+            array(),
+            $this->table,
+            array('user' => USER_ID)
+        );
+        
+        //$param = array('user' => USER_ID);
+        //$this->setParam($param);
+        //$query = "SELECT userdata FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
+        //return $this->query($query);
     }
     
-    public function getParam()
-    {
-        return $this->param;
-    }
-    
+    /*
     public function execute($query)
     {
     	$stmt = $this->pdo->prepare($query);
@@ -34,8 +46,9 @@ class Sql
             $_SESSION['msg']['error'] = ERROR_EXECUTE;
             return false;
         }
-    }
+    }*/
     
+    /*
     public function query($query)
     {
         $stmt = $this->pdo->prepare($query);
@@ -52,31 +65,11 @@ class Sql
             return false;
         }
     }
+    */
     
-    public function insert($data = false)
-    {      
-        if ($data)
-        {
-            $param = array('user' => USER_ID, 'data' => $data);
-            $this->setParam($param);
-            $query = "INSERT INTO ".$this->getTable()." (userid, userdata) VALUES (:user, :data)";
-            return $this->execute($query);
-        }
-        else
-        {
-            $_SESSION['msg']['error'] = ERROR_DATA;
-            return false;
-        }
-    }
     
-    public function select()
-    {
-        $param = array('user' => USER_ID);
-        $this->setParam($param);
-        $query = "SELECT userdata FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
-        return $this->query($query);
-    }
     
+    /*
     public function update($data = false)
     {
         if ($data)
@@ -92,7 +85,8 @@ class Sql
             return false;
         }
     }
-    
+    */
+    /*
     public function delete()
     {
         $param = array('user' => USER_ID);
@@ -100,5 +94,6 @@ class Sql
         $query = "DELETE FROM ".$this->getTable()." WHERE userid = :user LIMIT 1";
         return $this->execute($query);
     }
+    */
 }
 ?>
